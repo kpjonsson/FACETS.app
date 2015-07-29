@@ -1,4 +1,4 @@
-runEM2=function(d,matched.normal=TRUE) {
+rrunEM2=function(d,matched.normal=TRUE) {
 	pmat=d$pmat
 	jointseg=d$jointseg
 	out=d$out
@@ -67,13 +67,20 @@ plotSample3=function(x,pch=".",cex=2,label="NA") {
 	segbdry=cumsum(c(0,out$num.mark))
 	segstart=segbdry[-length(segbdry)]
 	segend=segbdry[-1]
-	layout(matrix(c(1,1,2,2),ncol=1))
-	par(mar=c(0.25,3,0.25,1),mgp=c(2,0.7,0),oma=c(3,0,1.25,0))
+	layout(matrix(c(1,1,2,2),ncol=1), heights = c(2, 1))
+	par(mar=c(1,3,0.25,1),mgp=c(2,0.7,0),oma=c(3,0,1.25,0))
 	colors=c("grey","lightblue","azure4","slateblue")
 	plot(jseg$cnlr[!is.na(jseg$cnlr)],pch=pch,cex=cex,col=colors[chrcol],ylab="log-ratio",xaxt="n")
 	abline(h=median(jseg$cnlr,na.rm=TRUE),col="green2")
+	abline(h = x$dipLogR, col = "magenta4")
+	abline(v = nn, lty = 'dashed', cex = .2, col = 'grey')
 	segments(segstart,out$cnlr.median,segend,out$cnlr.median,lwd=1.75,col=2)
-	mtext(side=3,line=0,at=length(jseg$cnlr[!is.na(jseg$cnlr)])/2,paste("Sample",label),cex=0.8)
+	mtext(side=3,line=0,at=length(jseg$cnlr[!is.na(jseg$cnlr)])/2,label,cex=0.8)
+	if(length(nn)==23) {
+			mtext(c(1:22,"X"),side=1,line=0,at=(nn+c(0,nn[-23]))/2,cex=0.65)
+	 } else {
+			 mtext(1:22,side=1,line=0,at=(nn+c(0,nn[-22]))/2,cex=0.65)
+    }
 	#if(length(nn)==23) {
 	#	mtext(c(1:22,"X"),side=3,line=0,at=(nn+c(0,nn[-23]))/2,cex=0.65)
 	#} else {
@@ -92,13 +99,13 @@ plotSample3=function(x,pch=".",cex=2,label="NA") {
 	par(def.par)
 }
 
-plotSampleCNCF2=function(out,fit) {
+plotSampleCNCF2=function(out,fit, label = NA) {
 	orig=out
   mat=out$jointseg
   mat=subset(mat,chrom<23)
-  out=subset(out$out,chr<23)
+  out=subset(out$out,chrom<23)
   cncf=fit$cncf
-  cncf=subset(cncf,chr<23)
+  cncf=subset(cncf,chrom<23)
   dipLogR <- fit$dipLogR
   
   #layout(matrix(c(1,1,2,2,3,3,4,4,5,5,6,6), ncol=1))
@@ -116,7 +123,7 @@ plotSampleCNCF2=function(out,fit) {
   mid=start+len/2
   
   
-  plot(mat$cnlr,pch=".",axes=F,cex=1.5,ylim=c(-3,3),col=c("grey","lightblue")[1+rep(cncf$chr-2*floor(cncf$chr/2),cncf$num.mark)],ylab="log-ratio",xlab=unique(orig$IGV$ID))
+  plot(mat$cnlr,pch=".",axes=F,cex=1.5,ylim=c(-3,3),col=c("grey","lightblue")[1+rep(cncf$chr-2*floor(cncf$chr/2),cncf$num.mark)],ylab="log-ratio",xlab = label)
   abline(h=dipLogR, col="gray")
   points(rep(cncf$cnlr.median, cncf$num.mark), pch=".", cex=2, col="brown")
   axis(side=1,at=mid,1:22,cex.axis=1,las=2)
@@ -134,7 +141,7 @@ plotSampleCNCF2=function(out,fit) {
 	labeled=paste(
 		"Purity = ",sprintf("%.3f",fit$purity),
 		", Ploidy = ",sprintf("%.3f",fit$ploidy),
-		", WGD = ",ifelse(fit$dipt>2,"Yes","No"),sep=""
+		", WGD = ", ifelse(!is.null(fit$dipt), ifelse(fit$dipt>2,"Yes","No"),'N/A'), sep=""
 	)
   plot(rep(cncf$cf.em,cncf$num.mark),axes=F,pch=".",cex=2,xlab="",ylab="Cellular fraction (EM)",ylim=c(0,1),main=labeled)
   axis(side=1,at=mid,1:22,cex.axis=1,las=2)

@@ -69,9 +69,10 @@ switch(args$genome,
 dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=CVAL,chromlevels=chromLevels)
 out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET)
 
-CairoPNG(file=cc(TAG,"BiSeg.png"),height=1000,width=800)
-plotSample(out,chromlevels=chromLevels)
-text(-.08,-.08,paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL),xpd=T,pos=4)
+CairoPNG(file=cc(TAG,"BiSeg.png"),height = 750, width=800)
+#plotSample(out,chromlevels=chromLevels)
+#text(-.08,-.08,paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL),xpd=T,pos=4)
+plotSample3(out, label = tumorName)
 dev.off()
 
 fit=emcncf(out)
@@ -99,7 +100,8 @@ write.xls(cbind(out$IGV[,1:4],fit$cncf[,2:ncol(fit$cncf)]),
     cc(TAG,"cncf.txt"),row.names=F)
 
 CairoPNG(file=cc(TAG,"CNCF.png"),height=1100,width=850)
-plotSampleCNCF(out,fit)
+plotSampleCNCF2(out, fit, label = tumorName)
+#plotSampleCNCF(out,fit)
 #plotSampleCNCF.custom(out$jointseg,out$out,fit,
 #        main=paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL))
 
