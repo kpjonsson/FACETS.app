@@ -8,7 +8,7 @@ getSDIR <- function(){
     TAG="--file="
     path_idx=grep(TAG,args)
     SDIR=dirname(substr(args[path_idx],nchar(TAG)+1,nchar(args[path_idx])))
-    if(len(SDIR)==0) {
+    if(length(SDIR)==0) {
         return(getwd())
     } else {
         return(SDIR)
