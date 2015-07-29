@@ -66,8 +66,7 @@ switch(args$genome,
     }
 )
 
-pre.CVAL=50
-dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=pre.CVAL,chromlevels=chromLevels)
+dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=CVAL,chromlevels=chromLevels)
 out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET)
 
 CairoPNG(file=cc(TAG,"BiSeg.png"),height=1000,width=800)
