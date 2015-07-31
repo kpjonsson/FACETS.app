@@ -43,5 +43,5 @@ $SDIR/bin/GetBaseCounts \
     --bam $BAM \
     --out $OFILE
 
-gzip -9 $OFILE
+	gzip -f -9 $OFILE # flag -f forces overwrite if file exists
 

@@ -11,7 +11,7 @@ TUMOR=sys.argv[1]
 NORMAL=sys.argv[2]
 MINCOV_NORMAL=25
 
-print >>sys.stderr, "Reading normal ..."
+print >>sys.stderr, "Reading normal..."
 cin=csv.DictReader(gzip.open(NORMAL),delimiter="\t")
 CovStruct=Struct.Struct
 CovStruct.setFields(cin.fieldnames)
@@ -25,8 +25,8 @@ for recD in cin:
 		continue
 	key=(rec.Chrom, rec.Pos, rec.Ref, rec.Alt)
 	counts[key]=rec
-print >>sys.stderr, "done"
-print >>sys.stderr, "Reading tumor ..."
+print >>sys.stderr, "Done!"
+print >>sys.stderr, "Reading tumor..."
 
 HEADER="""
 Chrom Pos Ref Alt
@@ -60,3 +60,4 @@ TOTAL_depth MAPQ_depth BASEQ_depth A C
 G T a c g
 t INS DEL
 """
+print >>sys.stderr, "Done!"
