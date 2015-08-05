@@ -1,3 +1,5 @@
+#!/opt/common/CentOS_6-dev/R/R-3.1.3/bin/Rscript
+
 DATE <- function() {gsub("-","",Sys.Date())}
 ddir="."
 files=dir(ddir,pattern=".R[Dd]ata")
